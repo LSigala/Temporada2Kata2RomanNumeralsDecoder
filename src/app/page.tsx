@@ -1,95 +1,59 @@
+'use client';
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "../page.module.css";
+import 'bootstrap/dist/css/bootstrap.css';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    async function SendRomanNumber(e: any){
+        e.preventDefault();
+    
+        const data = {
+            String: (e.target.string.value)
+        }
+
+        if (!isNaN(data.String)) {
+          alert("The data is not a string")  
+        }else{
+            toInteger(data.String.toUpperCase())
+        }
+        
+      }
+    
+    function toInteger(data: any) {
+        const romanNumerals = {
+            I: 1,
+            V: 5,
+            X: 10,
+            L: 50,
+            C: 100,
+            D: 500,
+            M: 1000,
+          };
+          let result = 0;
+          for (let i = 0; i < data.length; i++) {
+            const currentSymbol = romanNumerals[data[i]];
+            const nextSymbol = romanNumerals[data[i + 1]];
+            if (nextSymbol && currentSymbol < nextSymbol) {
+              result -= currentSymbol;
+            } else {
+              result += currentSymbol;
+            }
+          }
+          alert(result);
+    }
+
+  return (
+      <form onSubmit={SendRomanNumber} className="container col-6 text-center mt-4 bg-light">
+        <div>
+            <div className="form-group">
+                <div className="form-group mb-3">
+                    <label>Roman Number</label>
+                    <input type="string" className="form-control" id="string" required aria-describedby="emailHelp " />
+                </div>
+            </div>
+            <button type="submit" className="btn btn-primary mt-3 mb-3 mx-auto d-block">Send Roman Number</button>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </form>
   );
 }
